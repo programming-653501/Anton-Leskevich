@@ -1,106 +1,84 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace c_lab4
+namespace ConsoleApplication1
 {
     class Program
     {
         static void Main(string[] args)
         {
-            int a = 0, e=0, y=0, u=0, i=0, o = 0;
-            string text = Console.ReadLine();
-            text = text.ToLower();
-            int length = text.Length;
-            for (int j = 0; j < length; j++)
+            int amount = 0;
+            string list = @"C:\C\list.txt";
+            try
             {
-                if (text[j] == 'a') { a++; }
-                if (text[j] == 'e') { e++; }
-                if (text[j] == 'y') { y++; }
-                if (text[j] == 'u') { u++; }
-                if (text[j] == 'i') { i++; }
-                if (text[j] == 'o') { o++; }
+                using (StreamReader sr = new StreamReader(list, System.Text.Encoding.Default))
+                {
+                    string line;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        amount++;
+                        Console.WriteLine(line);
+                    }
+                }
             }
-            string [][] result = new string [7][];
-            result[0] = new string[a+1];
-            result[1] = new string[e+1];
-            result[2] = new string[y+1];
-            result[3] = new string[u+1];
-            result[4] = new string[i+1];
-            result[5] = new string[o+1];
-            result[6] = new string[length-a-e-y-u-i-o+1];
-            result[0][0] = "a   ";
-            result[1][0] = "e   ";
-            result[2][0] = "y   ";
-            result[3][0] = "u   ";
-            result[4][0] = "i   ";
-            result[5][0] = "o   ";
-            result[6][0] = "else";
-            int k;
-            for (k =1; k < a + 1; k++)
+            catch (Exception e)
             {
-                result[0][k] = "-";
+                Console.WriteLine(e.Message);
             }
-            for (k = 1; k < e + 1; k++)
+            Console.WriteLine(amount);
+            string[] mas2 = new string[amount];
+            try
             {
-                result[1][k] = "-";
+                using (StreamReader sr = new StreamReader(list, System.Text.Encoding.Default))
+                {
+                    string line;
+                    int i = 0;
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        mas2[i] = line;
+                        i++;
+                    }
+                }
             }
-            for (k = 1; k < y + 1; k++)
+            catch (Exception e)
             {
-                result[2][k] = "-";
+                Console.WriteLine(e.Message);
             }
-            for (k = 1; k < u + 1; k++)
+            Array.Sort(mas2);
+            string[,] result = new string[amount, 3];
+            for (int i = 0; i < amount; i++)
             {
-                result[3][k] = "-";
+                string[] words = mas2[i].Split(new char[] { ' ' });
+                for (int j = 0; j < 3; j++)
+                {
+                    result[i, j] = words[j];
+                }
             }
-            for (k = 1; k < i + 1; k++)
+            for (int i = 0; i < amount; i++)
             {
-                result[4][k] = "-";
+                for (int j = 0; j < 3; j++)
+                {
+                    result[i, j] = result[i, j].Substring(0, 1).ToUpper() + result[i, j].Remove(0, 1);
+                }
             }
-            for (k = 1; k < o + 1; k++)
+
+            for (int i = 0; i < amount; i++)
             {
-                result[5][k] = "-";
+                for (int j = 0; j < 3; j++)
+                {
+                    Console.Write(result[i, j] + " ");
+                }
+                Console.WriteLine();
             }
-            for (k = 1; k < length - a - e - y - u - i - o + 1; k++)
-            {
-                result[6][k] = "-";
-            }
-            for (k = 0; k < a + 1; k++)
-            {
-                Console.Write(result[0][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < e + 1; k++)
-            {
-                Console.Write(result[1][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < y + 1; k++)
-            {
-                Console.Write(result[2][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < u + 1; k++)
-            {
-                Console.Write(result[3][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < i + 1; k++)
-            {
-                Console.Write(result[4][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < o + 1; k++)
-            {
-                Console.Write(result[5][k] + " ");
-            }
-            Console.WriteLine();
-            for (k = 0; k < length - a - e - y - u - i - o + 1; k++)
-            {
-                Console.Write(result[6][k] + " ");
-            }
+
+
+
+
+
             Console.ReadKey();
         }
     }
